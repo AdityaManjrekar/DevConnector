@@ -4,6 +4,8 @@ const router = express.Router();
 const gravatar = require('gravatar');
 const User = require('../../models/User');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 // @route  Post api/users
 // @desc   Register user
 // @access public
@@ -45,7 +47,21 @@ router.post('/', [
         // Get users Gravatar
         // Encrypt password using Bcrypt
         // and return the jwt
-        res.send('User Registered');
+
+
+        const payload = {
+            user: {
+                id: user.id
+            }
+        };
+        jwt.sign(
+            payload,
+            config.get("jwtsecret"),
+            { expiresIn: 36000 }, (err, token) => {
+                if (err) throw err;
+                res.json({ token });
+            });
+
     }
     catch (err) {
         console.error(err.message);
