@@ -6,7 +6,7 @@ const connectDB = require('./config/db');
 
 connectDB();
 app.get('/', (req, resp) => resp.send('API Running'));
-// Init middle ware
+// Init middle ware Adding one commit
 app.use(express.json({ extended: false }));
 
 //Define routes
